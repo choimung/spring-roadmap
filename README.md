@@ -18,6 +18,8 @@
   - [x] ⏱️ 1일차 - [2023-12-20일]  03:13:57.73 공부 완료 [블로그 : 스프링 컨테이너 생성](https://choimung.github.io/spring/%EC%8A%A4%ED%94%84%EB%A7%81-%EC%BB%A8%ED%85%8C%EC%9D%B4%EB%84%88%EC%99%80-%EC%8A%A4%ED%94%84%EB%A7%81-%EB%B9%88/)
   
   - [x] ⏱️ 2일차 - [2023-12-21일] 01:22:33.34 공부 완료 [블로그 : 스프링 컨테이너 빈 조회](https://choimung.github.io/spring/%EC%8A%A4%ED%94%84%EB%A7%81-%EC%BB%A8%ED%85%8C%EC%9D%B4%EB%84%88-%EB%B9%88-%EC%A1%B0%ED%9A%8C/)
+      
+  - [x] ⏱️ 3일차 - [2023-12-22일] 01:25:.49 공부 완료 [블로그 : 싱글톤 패턴과 스프링 컨테이너](https://choimung.github.io/spring/%EC%8B%B1%EA%B8%80%ED%86%A4-%ED%8C%A8%ED%84%B4%EA%B3%BC-%EC%8A%A4%ED%94%84%EB%A7%81-%EC%BB%A8%ED%85%8C%EC%9D%B4%EB%84%88/)
 
 #### 🏆 Finished  on : xxxx-xx-xx
 
