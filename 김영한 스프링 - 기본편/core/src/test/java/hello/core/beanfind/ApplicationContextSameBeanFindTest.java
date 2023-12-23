@@ -1,8 +1,7 @@
 package hello.core.beanfind;
 
-import hello.core.AppConfig;
-import hello.core.Member.MemberRepository;
-import hello.core.Member.MemoryMemberRepository;
+import hello.core.member.MemberRepository;
+import hello.core.member.MemoryMemberRepository;
 import java.util.Map;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
