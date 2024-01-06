@@ -18,11 +18,11 @@ public class ItemRepository {
         return item;
     }
 
-    public Item findById(Long id){
+    public Item findById(Long id) {
         return store.get(id);
     }
 
-    public List<Item> findAll(){
+    public List<Item> findAll() {
         return new ArrayList<>(store.values());
     }
 
@@ -31,9 +31,13 @@ public class ItemRepository {
         findItem.setItemName(updateParam.getItemName());
         findItem.setPrice(updateParam.getPrice());
         findItem.setQuantity(updateParam.getQuantity());
+        findItem.setOpen(updateParam.getOpen());
+        findItem.setRegions(updateParam.getRegions());
+        findItem.setItemType(updateParam.getItemType());
+        findItem.setItemType(updateParam.getItemType());
     }
 
-    public void clearStore(){
+    public void clearStore() {
         store.clear();
     }
 }
