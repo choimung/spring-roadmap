@@ -4,6 +4,9 @@ import hello.itemservice.domain.item.DeliveryCode;
 import hello.itemservice.domain.item.Item;
 import hello.itemservice.domain.item.ItemRepository;
 import hello.itemservice.domain.item.ItemType;
+import hello.itemservice.domain.item.SaveCheck;
+import hello.itemservice.domain.item.UpdateCheck;
+import hello.itemservice.web.basic.validation.form.ItemSaveForm;
 import jakarta.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,9 +19,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
-import org.springframework.validation.ObjectError;
-import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,13 +37,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class BasicItemController {
 
     private final ItemRepository itemRepository;
-    private final ItemValidator itemValidator;
-
-    @InitBinder
-    public void init(WebDataBinder dataBinder) {
-        dataBinder.addValidators(itemValidator);
-    }
-
 
     @ModelAttribute("regions")
     public Map<String, String> regions() {
@@ -192,10 +185,33 @@ public class BasicItemController {
         return "redirect:/basic/items/{itemId}";
     }
 
-//    @PostMapping("/add")
+    //    @PostMapping("/add")
     public String addItemV6(@ModelAttribute Item item, BindingResult bindingResult,
                             RedirectAttributes redirectAttributes) {
-        itemValidator.validate(item, bindingResult);
+//        itemValidator.validate(item, bindingResult);
+
+        if (bindingResult.hasErrors()) {
+            log.info("error={}", bindingResult);
+            return "basic/addForm";
+        }
+
+        //성공로직
+        Item savedItem = itemRepository.save(item);
+        redirectAttributes.addAttribute("itemId", savedItem.getId());
+        redirectAttributes.addAttribute("status", true);
+        return "redirect:/basic/items/{itemId}";
+    }
+
+//    @PostMapping("/add")
+    public String addItemV7(@Validated(SaveCheck.class) @ModelAttribute Item item, BindingResult bindingResult,
+                            RedirectAttributes redirectAttributes) {
+
+        if(item.getPrice() != null && item.getQuantity() != null) {
+            int resultPrice = item.getQuantity() * item.getPrice();
+            if(resultPrice < 10000) {
+                bindingResult.reject("totalPriceMin", new Object[]{1000, resultPrice}, null);
+            }
+        }
 
         if (bindingResult.hasErrors()) {
             log.info("error={}", bindingResult);
@@ -210,13 +226,25 @@ public class BasicItemController {
     }
 
     @PostMapping("/add")
-    public String addItemV7(@Validated @ModelAttribute Item item, BindingResult bindingResult,
-                            RedirectAttributes redirectAttributes) {
+    public String addItemV78(@Validated() @ModelAttribute("item") ItemSaveForm form, BindingResult bindingResult,
+                             RedirectAttributes redirectAttributes) {
+
+        if(form.getPrice() != null && form.getQuantity() != null) {
+            int resultPrice = form.getQuantity() * form.getPrice();
+            if(resultPrice < 10000) {
+                bindingResult.reject("totalPriceMin", new Object[]{1000, resultPrice}, null);
+            }
+        }
 
         if (bindingResult.hasErrors()) {
             log.info("error={}", bindingResult);
             return "basic/addForm";
         }
+
+        Item item = new Item();
+        item.setItemName(form.getItemName());
+        item.setPrice(form.getPrice());
+        item.setQuantity(form.getQuantity());
 
         //성공로직
         Item savedItem = itemRepository.save(item);
@@ -234,7 +262,20 @@ public class BasicItemController {
     }
 
     @PostMapping("{itemId}/edit")
-    public String editItem(@PathVariable("itemId") Long itemId, @ModelAttribute Item item) {
+    public String editItem(@PathVariable("itemId") Long itemId, @Validated(value = UpdateCheck.class) @ModelAttribute Item item, BindingResult bindingResult) {
+
+        if(item.getPrice() != null && item.getQuantity() != null) {
+            int resultPrice = item.getQuantity() * item.getPrice();
+            if(resultPrice < 10000) {
+                bindingResult.reject("totalPriceMin", new Object[]{1000, resultPrice},  null);
+            }
+        }
+
+        if(bindingResult.hasErrors()) {
+            log.info("errors = {}" , bindingResult);
+            return "basic/editForm";
+        }
+
         itemRepository.update(itemId, item);
         return "redirect:/basic/items/{itemId}";
     }
