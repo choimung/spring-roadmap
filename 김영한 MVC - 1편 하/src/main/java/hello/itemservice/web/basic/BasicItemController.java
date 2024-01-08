@@ -19,7 +19,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.validation.ValidationUtils;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,6 +37,13 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class BasicItemController {
 
     private final ItemRepository itemRepository;
+    private final ItemValidator itemValidator;
+
+    @InitBinder
+    public void init(WebDataBinder dataBinder) {
+        dataBinder.addValidators(itemValidator);
+    }
+
 
     @ModelAttribute("regions")
     public Map<String, String> regions() {
@@ -109,20 +119,20 @@ public class BasicItemController {
         return "redirect:/basic/items/" + item.getId();
     }
 
-    @PostMapping("/add")
+    //    @PostMapping("/add")
     public String addItemV5(@ModelAttribute Item item, BindingResult bindingResult,
                             RedirectAttributes redirectAttributes, Model model) {
 
 
         /*
-        * `rejectValue()` 호출
-        * `MessageCodesResolvar`를 사용해서 검증 오류 코드로 메세지 코드들을 생성
-        * `new FieldError`를 생성하면서 메세지 코드를 보관한다.
-        * `th:errors`에서 메세지 코드들로 메세지를 순서대로 메세지에서 찾고 노출
-        * */
+         * `rejectValue()` 호출
+         * `MessageCodesResolvar`를 사용해서 검증 오류 코드로 메세지 코드들을 생성
+         * `new FieldError`를 생성하면서 메세지 코드를 보관한다.
+         * `th:errors`에서 메세지 코드들로 메세지를 순서대로 메세지에서 찾고 노출
+         * */
 
         log.info("objectNMame={}", bindingResult.getObjectName());
-        log.info("target={}",bindingResult.getTarget());
+        log.info("target={}", bindingResult.getTarget());
 
         /*V1*/
         //검증 오류 보관
@@ -143,7 +153,7 @@ public class BasicItemController {
 //            bindingResult.addError(new FieldError("item", "price", "가격은 1,000원에서 1,000,000까지 허용합니다."));
 //            bindingResult.addError(new FieldError("item", "price", item.getPrice(), false, null, null,
 //            bindingResult.addError(new FieldError("item", "price", item.getPrice(), false, new String[]{"range.item.price"}, new Object[]{1000, 100000},null));
-            bindingResult.rejectValue("price", "range", new Object[]{1000, 1000000},null);
+            bindingResult.rejectValue("price", "range", new Object[]{1000, 1000000}, null);
         }
         if (item.getQuantity() == null || item.getQuantity() >= 9999) {
 //            errors.put("quantity", "수량은 최대 9,999까지 허용합니다.");
@@ -169,6 +179,39 @@ public class BasicItemController {
 //            model.addAttribute("errors", errors);
 //            return "basic/addForm";
 //        }
+
+        if (bindingResult.hasErrors()) {
+            log.info("error={}", bindingResult);
+            return "basic/addForm";
+        }
+
+        //성공로직
+        Item savedItem = itemRepository.save(item);
+        redirectAttributes.addAttribute("itemId", savedItem.getId());
+        redirectAttributes.addAttribute("status", true);
+        return "redirect:/basic/items/{itemId}";
+    }
+
+//    @PostMapping("/add")
+    public String addItemV6(@ModelAttribute Item item, BindingResult bindingResult,
+                            RedirectAttributes redirectAttributes) {
+        itemValidator.validate(item, bindingResult);
+
+        if (bindingResult.hasErrors()) {
+            log.info("error={}", bindingResult);
+            return "basic/addForm";
+        }
+
+        //성공로직
+        Item savedItem = itemRepository.save(item);
+        redirectAttributes.addAttribute("itemId", savedItem.getId());
+        redirectAttributes.addAttribute("status", true);
+        return "redirect:/basic/items/{itemId}";
+    }
+
+    @PostMapping("/add")
+    public String addItemV7(@Validated @ModelAttribute Item item, BindingResult bindingResult,
+                            RedirectAttributes redirectAttributes) {
 
         if (bindingResult.hasErrors()) {
             log.info("error={}", bindingResult);
