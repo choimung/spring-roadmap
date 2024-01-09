@@ -1,9 +1,7 @@
-package hello.itemservice.web.basic.validation.form;
+package hello.itemservice.web.item.validation.form;
 
-import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import java.util.Locale;
 import lombok.Data;
 import org.hibernate.validator.constraints.Range;
 

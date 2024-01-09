@@ -1,4 +1,4 @@
-package hello.itemservice.web.basic;
+package hello.itemservice.web.item;
 
 import hello.itemservice.domain.item.DeliveryCode;
 import hello.itemservice.domain.item.Item;
@@ -6,7 +6,7 @@ import hello.itemservice.domain.item.ItemRepository;
 import hello.itemservice.domain.item.ItemType;
 import hello.itemservice.domain.item.SaveCheck;
 import hello.itemservice.domain.item.UpdateCheck;
-import hello.itemservice.web.basic.validation.form.ItemSaveForm;
+import hello.itemservice.web.item.validation.form.ItemSaveForm;
 import jakarta.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,9 +20,7 @@ import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -226,7 +224,7 @@ public class BasicItemController {
     }
 
     @PostMapping("/add")
-    public String addItemV78(@Validated() @ModelAttribute("item") ItemSaveForm form, BindingResult bindingResult,
+    public String addItemV78(@Validated @ModelAttribute("item") ItemSaveForm form, BindingResult bindingResult,
                              RedirectAttributes redirectAttributes) {
 
         if(form.getPrice() != null && form.getQuantity() != null) {

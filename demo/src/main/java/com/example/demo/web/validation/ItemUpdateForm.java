@@ -1,13 +1,17 @@
-package hello.itemservice.web.basic.validation.form;
+package com.example.demo.web.validation;
 
-import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.validator.constraints.Range;
 
-@Data
-public class ItemSaveForm {
+@Getter @Setter
+public class ItemUpdateForm {
+
+    @NotNull
+    private Long id;
+
     @NotBlank
     public String itemName;
 
@@ -15,7 +19,5 @@ public class ItemSaveForm {
     @Range(min = 1000, max = 100000)
     public Integer price;
 
-    @NotNull
-    @Max(9999)
     public Integer quantity;
 }
