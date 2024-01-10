@@ -29,7 +29,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
-@RequestMapping("/basic/items")
+@RequestMapping("/items")
 @RequiredArgsConstructor
 @Slf4j
 public class BasicItemController {
@@ -197,7 +197,7 @@ public class BasicItemController {
         Item savedItem = itemRepository.save(item);
         redirectAttributes.addAttribute("itemId", savedItem.getId());
         redirectAttributes.addAttribute("status", true);
-        return "redirect:/basic/items/{itemId}";
+        return "redirect:/items/{itemId}";
     }
 
 //    @PostMapping("/add")
@@ -220,7 +220,7 @@ public class BasicItemController {
         Item savedItem = itemRepository.save(item);
         redirectAttributes.addAttribute("itemId", savedItem.getId());
         redirectAttributes.addAttribute("status", true);
-        return "redirect:/basic/items/{itemId}";
+        return "redirect:/items/{itemId}";
     }
 
     @PostMapping("/add")
@@ -248,7 +248,7 @@ public class BasicItemController {
         Item savedItem = itemRepository.save(item);
         redirectAttributes.addAttribute("itemId", savedItem.getId());
         redirectAttributes.addAttribute("status", true);
-        return "redirect:/basic/items/{itemId}";
+        return "redirect:/items/{itemId}";
     }
 
 
@@ -275,7 +275,7 @@ public class BasicItemController {
         }
 
         itemRepository.update(itemId, item);
-        return "redirect:/basic/items/{itemId}";
+        return "redirect:/items/{itemId}";
     }
 
     @PostConstruct
