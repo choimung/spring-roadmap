@@ -3,6 +3,7 @@ package hello.itemservice.web;
 import hello.itemservice.domain.member.Member;
 import hello.itemservice.domain.member.MemberRepository;
 import hello.itemservice.domain.session.SessionManager;
+import hello.itemservice.web.argumentresolver.Login;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -77,8 +78,22 @@ public class HomeController {
         return "loginHome";
     }
 
-    @GetMapping("/")
+//    @GetMapping("/")
     public String homeLoginV1Spring(@SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember, Model model) {
+
+
+        if (loginMember == null) {
+            return "home";
+        }
+
+        //세션이 유지되면 로그인으로 이동
+        model.addAttribute("member", loginMember);
+        return "loginHome";
+    }
+
+    @GetMapping("/")
+    public String homeLoginV2SpringArgumentResolver(@Login Member loginMember, Model model) {
+
 
 
         if (loginMember == null) {
