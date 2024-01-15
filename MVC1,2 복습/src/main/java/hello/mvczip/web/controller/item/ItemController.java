@@ -79,8 +79,7 @@ public class ItemController {
     }
 
     @PostMapping("/{itemId}/edit")
-    public String edit(@PathVariable long itemId, @Validated @ModelAttribute("item") ItemUpdateForm form, BindingResult bindingResult
-            , RedirectAttributes redirectAttributes) {
+    public String edit(@PathVariable long itemId, @Validated @ModelAttribute("item") ItemUpdateForm form, BindingResult bindingResult) {
 
 
         if(bindingResult.hasErrors()) {

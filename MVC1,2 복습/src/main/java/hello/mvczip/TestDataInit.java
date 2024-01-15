@@ -2,6 +2,8 @@ package hello.mvczip;
 
 import hello.mvczip.domain.item.Item;
 import hello.mvczip.domain.item.ItemRepository;
+import hello.mvczip.domain.member.Member;
+import hello.mvczip.domain.member.MemberRepository;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Component;
 public class TestDataInit {
 
     private final ItemRepository itemRepository;
+    private final MemberRepository memberRepository;
 
     @PostConstruct
     public void init() {
@@ -19,6 +22,9 @@ public class TestDataInit {
 
         itemRepository.save(itemA);
         itemRepository.save(itemB);
+
+        Member member = new Member("test", "test!", "테스터");
+        memberRepository.save(member);
     }
 
 
