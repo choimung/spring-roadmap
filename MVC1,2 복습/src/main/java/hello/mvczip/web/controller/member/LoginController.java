@@ -14,6 +14,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequiredArgsConstructor
@@ -28,7 +29,8 @@ public class LoginController {
     }
 
     @PostMapping("login")
-    public String login(@ModelAttribute LoginForm form, BindingResult bindingResult, HttpServletRequest request) {
+    public String login(@ModelAttribute LoginForm form, BindingResult bindingResult, HttpServletRequest request,
+                        @RequestParam(value = "redirectURL", required = false, defaultValue = "/") String redirectURL) {
 
         if(bindingResult.hasErrors()) {
             return "login/loginForm";
@@ -45,7 +47,7 @@ public class LoginController {
         HttpSession session = request.getSession();
         session.setAttribute("loginMember", member);
 
-        return "redirect:/";
+        return "redirect:"+redirectURL;
     }
 
     @PostMapping("/logout")
