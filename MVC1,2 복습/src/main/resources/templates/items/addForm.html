@@ -9,6 +9,10 @@
         .container {
             max-width: 560px;
         }
+        .field-error {
+            border-color: #832b33;
+            color: #a52834;
+        }
     </style>
 </head>
 <body>
@@ -16,27 +20,36 @@
     <h2>상품 등록 폼</h2>
 </div>
     <h4 class="mb-3">상품 입력</h4>
-    <form action="item.html" th:action  method="post">
+    <form action="item.html" th:action th:object="${item}" method="post">
+
+        <div th:if="${#fields.hasGlobalErrors()}">
+
+            <p class="field-error" th:each="err : ${#fields.globalErrors()}" th:text="${err}"> 글로벌 오류 메시지</p>
+
+        </div>
+
         <div>
             <label for="itemName">상품명</label>
-            <input type="text" id="itemName" name="itemName" class="form-control"
-                   placeholder="이름을 입력하세요">
+            <input type="text" id="itemName" name="itemName" class="form-control" th:errorclass="field-error"
+                    th:field="*{itemName}" placeholder="이름을 입력하세요">
+            <div th:class="field-error" th:errors="*{itemName}"></div>
         </div>
         <div>
             <label for="price">가격</label>
-            <input type="text" id="price" name="price" class="form-control"
-                   placeholder="가격을 입력하세요">
+            <input type="text" id="price" name="price" class="form-control" th:errorclass="field-error"
+                   th:field="*{price}" placeholder="가격을 입력하세요">
+            <div th:class="field-error" th:errors="*{price}"></div>
         </div>
         <div>
             <label for="quantity">수량</label>
-            <input type="text" id="quantity" name="quantity" class="form-control"
-                   placeholder="수량을 입력하세요">
+            <input type="text" id="quantity" name="quantity" class="form-control" th:errorclass="field-error"
+                   th:field="*{quantity}" placeholder="수량을 입력하세요">
+            <div th:class="field-error" th:errors="*{quantity}"></div>
         </div>
         <hr class="my-4">
         <div class="row">
             <div class="col">
-                <button class="w-100 btn btn-primary btn-lg" type="submit">상품 등
-                    록</button>
+                <button class="w-100 btn btn-primary btn-lg" type="submit">상품 등 록</button>
             </div>
             <div class="col">
                 <button class="w-100 btn btn-secondary btn-lg"
