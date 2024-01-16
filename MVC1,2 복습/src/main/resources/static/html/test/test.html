@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>상품 관리 페이지</title>
+    <!-- Bootstrap CSS 추가 -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            padding: 20px;
+        }
+        .product-list {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>상품 관리 페이지</h1>
+
+    <!-- 상품 추가 폼 -->
+    <form>
+        <div class="form-group">
+            <label for="productName">상품명:</label>
+            <input type="text" class="form-control" id="productName" required>
+        </div>
+        <div class="form-group">
+            <label for="productPrice">가격:</label>
+            <input type="number" class="form-control" id="productPrice" required>
+        </div>
+        <button type="submit" class="btn btn-primary">추가</button>
+    </form>
+
+    <!-- 상품 목록 -->
+    <div class="product-list">
+        <h2>상품 목록</h2>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>상품명</th>
+                <th>가격</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- 여기에 동적으로 상품 목록이 추가될 것입니다. -->
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Bootstrap JS 및 jQuery 추가 -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
